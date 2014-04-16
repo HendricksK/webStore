@@ -9,6 +9,7 @@ package com.hendricks.musicstoreweb.test.repository;
 import com.hendricks.musicstoreweb.app.conf.ConnectionConfig;
 import com.hendricks.musicstoreweb.domain.Album;
 import com.hendricks.musicstoreweb.domain.Song;
+import com.hendricks.musicstoreweb.domain.songsEmbeddable;
 import com.hendricks.musicstoreweb.repository.AlbumRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class AlbumRepositoryTest {
     
     public static ApplicationContext ctx;
     private AlbumRepository albumRepo;
-    public List<Song> songs = new ArrayList();
+    public List<songsEmbeddable> songs = new ArrayList();
     
     public AlbumRepositoryTest() {
     }
@@ -46,18 +47,29 @@ public class AlbumRepositoryTest {
         
         albumRepo = ctx.getBean(AlbumRepository.class);
         
-        Song s = new Song.Builder(1)
-                .setAlbum("Downtown Battle Mountain II")
-                .setName("Power To The People")
-                .build();
-        
-        songs.add(s);
+        songsEmbeddable s1 = new songsEmbeddable();
+        s1.setTitle("Open your Eyes and Look North");
+        s1.setAlbum("Downtown Battle Mountain");
+        s1.setTrackNum(9);
+       
         
         Album a = new Album();
-        a.setName(s.getAlbum());
+        a.setName("Downtown Battle Mountain");
+        a.setSongs(s1);
                 
         albumRepo.save(a);
         Assert.assertNotNull(a);
+        
+    }
+    
+    @Test
+    public void deleteAlbum(){
+        albumRepo = ctx.getBean(AlbumRepository.class);
+        List<Album> a = new ArrayList();
+        a = albumRepo.findAll();
+            for(int x = 0; x < a.size(); x++)
+                a.get(x).display();
+        //albumRepo.deleteAllInBatch();
     }
 
     @BeforeClass

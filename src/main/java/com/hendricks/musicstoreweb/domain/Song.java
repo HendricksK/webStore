@@ -6,39 +6,74 @@
 
 package com.hendricks.musicstoreweb.domain;
 
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *
  * @author kurvin
  */
-public final class Song {
-    
-    private String name;
-    private int ID;
+@Entity
+public class Song implements Serializable{
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String title;
     private String album;
     private int trackNum;
     
     private Song(){};
     
-    private Song(Song item){
-        name = item.name;
-        ID = item.ID;
-        album = item.album;
-        trackNum = item.trackNum;
+    
+    
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Song other = (Song) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Song{" + "id=" + id + '}';
     }
     
     private Song(Builder item){
-        name = item.name;
-        ID = item.ID;
-        album = item.album;
-        trackNum = item.trackNum;
+        this.id = item.id;
+        this.album = item.album;
+        this.title = item.title;
+        this.trackNum = item.trackNum;
+    }
+    
+    private Song(Song s){
+        this.id = s.id;
+        this.album = s.album;
+        this.title = s.title;
+        this.trackNum = s.trackNum;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getID() {
-        return ID;
+    public String getTitle() {
+        return title;
     }
 
     public String getAlbum() {
@@ -48,10 +83,72 @@ public final class Song {
     public int getTrackNum() {
         return trackNum;
     }
+
+    public Long getId() {
+        return id;
+    }
+    
+    public static class Builder{
+        private static final long serialVersionUID = 1L;
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        private Long id;
+        private String title;
+        private String album;
+        private int trackNum;
+        
+        public Builder(){}
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setAlbum(String album) {
+            this.album = album;
+            return this;
+        }
+
+        public Builder setTrackNum(int trackNum) {
+            this.trackNum = trackNum;
+            return this;
+        }
+        
+        public Builder Song(Song s){
+            this.album = s.album;
+            this.id = s.id;
+            this.title = s.title;
+            this.trackNum = s.trackNum;
+            return this;
+        }
+        
+        public Song build(){
+            return new Song(this);
+        }
+        
+        
+        
+    }
     
     
     
-        public static class Builder{
+    /*private Song(Song item){
+        name = item.name;
+        id = item.id;
+        album = item.album;
+        trackNum = item.trackNum;
+    }
+    
+    private Song(Builder item){
+        name = item.name;
+        id = item.id;
+        album = item.album;
+        trackNum = item.trackNum;
+    }
+    
+    
+    
+          public static class Builder{
             
             private String name;
             private int ID;
@@ -87,30 +184,9 @@ public final class Song {
             public Song build(){
                 return new Song(this);
             }
-        }
+        }*/
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + this.ID;
-        return hash;
-    }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Song other = (Song) obj;
-        if (this.ID != other.ID) {
-            return false;
-        }
-        return true;
+
     }
     
-        
-    
-}

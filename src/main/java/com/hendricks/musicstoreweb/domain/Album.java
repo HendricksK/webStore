@@ -9,6 +9,7 @@ package com.hendricks.musicstoreweb.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,8 @@ public class Album implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    @Embedded
+    private songsEmbeddable songs;
 
     public Long getId() {
         return id;
@@ -40,6 +43,18 @@ public class Album implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public songsEmbeddable getSongs() {
+        return songs;
+    }
+
+    public void setSongs(songsEmbeddable songs) {
+        this.songs = songs;
+    }
+    
+    public void display(){
+        System.out.println(toString());
     }
     
     /*public static class Builder{
