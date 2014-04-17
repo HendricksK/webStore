@@ -23,29 +23,28 @@ import javax.persistence.OneToOne;
  * @author kurvin
  */
 @Entity
-public class CD implements Serializable{
+public class Vinyl implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String album;
     private String artist;
-    private Long songID;
     
-    private CD(){};
+    private Vinyl(){};
     
-    private CD(CD item){
+    private Vinyl(Vinyl item){
         this.album = item.album;
         this.artist = item.artist;
         this.id = item.id;
-        this.songID = item.songID;
+        //this.songList = item.songList;
     }
     
-    private CD(Builder item){
+    private Vinyl(Builder item){
         this.album = item.album;
         this.artist = item.artist;
         this.id = item.id;
-        this.songID = item.songID;
+        //this.songList = item.songList;
     }
     
         public static class Builder{
@@ -55,37 +54,37 @@ public class CD implements Serializable{
             private Long id;
             private String album;
             private String artist;
-            private Long songID;
             
             public Builder(){
-              //defauult constructor as the database itself willl be creating the ID
+                //default constructor for builder
             }
 
-            public Builder setAlbum(String album) {
-                this.album = album;
-                return this;
-            }
+        public Builder setAlbum(String album) {
+            this.album = album;
+            return this;
+        }
 
-            public Builder setArtist(String artist) {
-                this.artist = artist;
-                return this;
-            }
+        public Builder setArtist(String artist) {
+            this.artist = artist;
+            return this;
+        }
 
-            public Builder setSongID(Long s) {
-                this.songID = s;
-                return this;
-            }
-
-            public Builder CD(CD item){
-                this.album = item.album;
-                this.artist = item.artist;
-                this.songID = item.songID;
-                return this;
-            }
-
-            public CD build(){
-                return new CD(this);
-            }    
+        /*public Builder setSongList(List<Song> songList) {
+            this.songList = songList;
+            return this;
+        }*/
+      
+        
+        public Builder Vinyl(Vinyl item){
+            this.album = item.album;
+            this.artist = item.artist;
+            //this.songList = item.songList;
+            return this;
+        }
+            
+        public Vinyl build(){
+            return new Vinyl(this);
+        }    
     }
 
     public String getAlbum() {
@@ -96,22 +95,18 @@ public class CD implements Serializable{
         return artist;
     }
 
-    public Long getID() {
+    public long getID() {
         return id;
     }
 
-    public Long getSongID() {
-        return songID;
-    }
-
-    public Long getId() {
-        return id;
-    }
+    /*public List<Song> getSongList() {
+        return songList;
+    }*/
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 61 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -123,7 +118,7 @@ public class CD implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CD other = (CD) obj;
+        final Vinyl other = (Vinyl) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -132,8 +127,10 @@ public class CD implements Serializable{
 
     @Override
     public String toString() {
-        return "CD{" + "id=" + id + '}';
+        return "Vinyl{" + "id=" + id + '}';
     }
-        
-       
+    
+    
+    
+    
 }

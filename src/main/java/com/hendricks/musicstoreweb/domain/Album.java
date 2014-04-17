@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -29,55 +30,71 @@ public class Album implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @Embedded
-    private songsEmbeddable songs;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="album_id")
     List<Song> songList;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="album_id1")
+    CD cd;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="album_id2")
+    Vinyl vinyl;
+    
     public List<Song> getSongList() {
         return songList;
-    }
-
-    public void setSongList(List<Song> songList) {
-        this.songList = songList;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public songsEmbeddable getSongs() {
-        return songs;
-    }
-
-    public void setSongs(songsEmbeddable songs) {
-        this.songs = songs;
     }
     
     public void display(){
         System.out.println(toString());
     }
+
+    public CD getCd() {
+        return cd;
+    }
+
+    public Vinyl getVinyl() {
+        return vinyl;
+    }
     
-    /*public static class Builder{
+    private Album(Builder b){
+        this.id = b.id;
+        this.name = b.name;
+        this.songList = b.songList;
+    }
+    
+    private Album(Album a){
+        this.id = a.id;
+        this.name = a.name;
+        this.songList = a.songList;
+    }
+    
+    private Album(){
+        
+    }
+    
+    public static class Builder{
         private static final long serialVersionUID = 1L;
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private Long id;
         private String name;
-        private List<Song> songs = new ArrayList();
+         @OneToMany(cascade = CascadeType.ALL)
+        @JoinColumn(name="album_id")
+        List<Song> songList;
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name="album_id")
+        CD cd;
+        @OneToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name="album_id")
+        Vinyl vinyl;
         
         public Builder(){};
         
@@ -86,8 +103,42 @@ public class Album implements Serializable {
             return this;
         }
         
+        public Builder setSongList(List<Song> s){
+            this.songList = s;
+            return this;
+        }
         
-    }*/
+        public Builder setId(Long ID){
+            this.id = ID;
+            return this;
+        }
+
+        public Builder setCd(CD cd) {
+            this.cd = cd;
+            return this;
+        }
+
+        public Builder setVinyl(Vinyl vinyl) {
+            this.vinyl = vinyl;
+            return this;
+        }
+        
+        public Builder Album(Album a){
+            this.id = a.id;
+            this.cd = a.cd;
+            this.name = a.name;
+            this.songList = a.songList;
+            this.vinyl = a.vinyl;
+            return this;
+        }
+        
+        public Album build(){
+            return new Album(this);
+        }
+        
+        
+        
+    }
 
     @Override
     public int hashCode() {

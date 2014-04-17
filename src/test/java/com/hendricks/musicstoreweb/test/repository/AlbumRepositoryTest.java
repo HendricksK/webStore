@@ -8,9 +8,11 @@ package com.hendricks.musicstoreweb.test.repository;
 
 import com.hendricks.musicstoreweb.app.conf.ConnectionConfig;
 import com.hendricks.musicstoreweb.domain.Album;
+import com.hendricks.musicstoreweb.domain.CD;
 import com.hendricks.musicstoreweb.domain.Song;
-import com.hendricks.musicstoreweb.domain.songsEmbeddable;
+import com.hendricks.musicstoreweb.domain.Vinyl;
 import com.hendricks.musicstoreweb.repository.AlbumRepository;
+import com.hendricks.musicstoreweb.repository.SongRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.ApplicationContext;
@@ -31,8 +33,11 @@ public class AlbumRepositoryTest {
     
     public static ApplicationContext ctx;
     private AlbumRepository albumRepo;
+    private SongRepository songRepo;
     private Long id;
-    public List<songsEmbeddable> songs = new ArrayList();
+    private Long songID;
+    public List<Song> songs = new ArrayList();
+    
     
     public AlbumRepositoryTest() {
     }
@@ -47,20 +52,44 @@ public class AlbumRepositoryTest {
     public void createAlbum(){
         
         albumRepo = ctx.getBean(AlbumRepository.class);
+        songRepo = ctx.getBean(SongRepository.class);
         
-        songsEmbeddable s1 = new songsEmbeddable();
-        s1.setTitle("Open your Eyes and Look North");
-        s1.setAlbum("Downtown Battle Mountain");
-        s1.setTrackNum(9);
-       
         
-        Album a = new Album();
-        a.setName("Downtown Battle Mountain");
-        a.setSongs(s1);
+        Album a = new Album.Builder()
+                .setName("Downtown Battle Mountain II")
+                .build();
+        
+        Song s = new Song.Builder()
+                .setAlbum(a.getName())
+                .setTitle("Carve")
+                .setTrackNum(05)
+                .build();
+        
+        songRepo.save(s);
+        songID = s.getId();
+        songs.add(s);
+        
+        CD c = new CD.Builder()
+                .setAlbum(a.getName())
+                .setArtist("Dance Gavin Dance")
+                .setSongID(songID)
+                .build();
+        
+        Vinyl v = new Vinyl.Builder()
+                .setAlbum(a.getName())
+                .setArtist("Dance Gavin Dance")
+                //.setSongList(songs)
+                .build();
+        
+        Album b = new Album.Builder()
+                .Album(a)
+                .setCd(c)
+                .setVinyl(v)
+                .build();
                 
-        albumRepo.save(a);
-        id = a.getId();
-        Assert.assertNotNull(a);
+        albumRepo.save(b);
+        id = b.getId();
+        Assert.assertNotNull(b);
         
     }
     
@@ -68,7 +97,7 @@ public class AlbumRepositoryTest {
     public void readAlbum(){
         albumRepo = ctx.getBean(AlbumRepository.class);
         Album album = albumRepo.findOne(id);
-        Assert.assertEquals(album.getName(), "Downtown Battle Mountain");
+        Assert.assertEquals(album.getName(), "Downtown Battle Mountain II");
     }
     
     @Test(dependsOnMethods = "createAlbum")
@@ -78,16 +107,12 @@ public class AlbumRepositoryTest {
     
     @Test(dependsOnMethods = "updateAlbum")
     private void deleteAlbum(){
-        /*albumRepo = ctx.getBean(AlbumRepository.class);
-        List<Album> a = new ArrayList();
-        a = albumRepo.findAll();
-            for(int x = 0; x < a.size(); x++)
-                a.get(x).display();
-        //albumRepo.deleteAllInBatch();*/
         albumRepo = ctx.getBean(AlbumRepository.class);
         albumRepo.delete(id);
-        
+        songRepo.delete(songID);
+        Song song = songRepo.findOne(songID);
         Album album = albumRepo.findOne(id);
+        Assert.assertNull(song);
         Assert.assertNull(album);
         
     }
