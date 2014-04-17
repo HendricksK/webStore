@@ -31,6 +31,7 @@ public class AlbumRepositoryTest {
     
     public static ApplicationContext ctx;
     private AlbumRepository albumRepo;
+    private Long id;
     public List<songsEmbeddable> songs = new ArrayList();
     
     public AlbumRepositoryTest() {
@@ -58,18 +59,37 @@ public class AlbumRepositoryTest {
         a.setSongs(s1);
                 
         albumRepo.save(a);
+        id = a.getId();
         Assert.assertNotNull(a);
         
     }
     
-    @Test
-    public void deleteAlbum(){
+    @Test(dependsOnMethods = "createAlbum")
+    public void readAlbum(){
         albumRepo = ctx.getBean(AlbumRepository.class);
+        Album album = albumRepo.findOne(id);
+        Assert.assertEquals(album.getName(), "Downtown Battle Mountain");
+    }
+    
+    @Test(dependsOnMethods = "createAlbum")
+    private void updateAlbum(){
+        albumRepo = ctx.getBean(AlbumRepository.class);
+    }
+    
+    @Test(dependsOnMethods = "updateAlbum")
+    private void deleteAlbum(){
+        /*albumRepo = ctx.getBean(AlbumRepository.class);
         List<Album> a = new ArrayList();
         a = albumRepo.findAll();
             for(int x = 0; x < a.size(); x++)
                 a.get(x).display();
-        //albumRepo.deleteAllInBatch();
+        //albumRepo.deleteAllInBatch();*/
+        albumRepo = ctx.getBean(AlbumRepository.class);
+        albumRepo.delete(id);
+        
+        Album album = albumRepo.findOne(id);
+        Assert.assertNull(album);
+        
     }
 
     @BeforeClass
