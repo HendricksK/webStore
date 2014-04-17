@@ -9,11 +9,14 @@ package com.hendricks.musicstoreweb.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -28,6 +31,17 @@ public class Album implements Serializable {
     private String name;
     @Embedded
     private songsEmbeddable songs;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="album_id")
+    List<Song> songList;
+
+    public List<Song> getSongList() {
+        return songList;
+    }
+
+    public void setSongList(List<Song> songList) {
+        this.songList = songList;
+    }
 
     public Long getId() {
         return id;
