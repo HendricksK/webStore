@@ -30,19 +30,19 @@ public class Album implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @OneToMany(cascade = CascadeType.ALL)
+    /*@OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="album_id")
-    List<Song> songList;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="album_id1")
+    List<Song> songList;*/
+    
+    /*@JoinColumn(name="album_id1")
     CD cd;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="album_id2")
-    Vinyl vinyl;
+    Vinyl vinyl;*/
     
-    public List<Song> getSongList() {
+    /*public List<Song> getSongList() {
         return songList;
-    }
+    }*/
 
     public Long getId() {
         return id;
@@ -56,24 +56,24 @@ public class Album implements Serializable {
         System.out.println(toString());
     }
 
-    public CD getCd() {
+    /*public CD getCd() {
         return cd;
     }
 
     public Vinyl getVinyl() {
         return vinyl;
-    }
+    }*/
     
     private Album(Builder b){
         this.id = b.id;
         this.name = b.name;
-        this.songList = b.songList;
+        //this.songList = b.songList;
     }
     
     private Album(Album a){
         this.id = a.id;
         this.name = a.name;
-        this.songList = a.songList;
+        //this.songList = a.songList;
     }
     
     private Album(){
@@ -81,63 +81,63 @@ public class Album implements Serializable {
     }
     
     public static class Builder{
-        private static final long serialVersionUID = 1L;
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
         private Long id;
         private String name;
-         @OneToMany(cascade = CascadeType.ALL)
+        /*@OneToMany(cascade = CascadeType.ALL)
         @JoinColumn(name="album_id")
-        List<Song> songList;
-        @OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name="album_id")
+        List<Song> songList;*
+        /*@JoinColumn(name="album_id")
         CD cd;
         @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name="album_id")
-        Vinyl vinyl;
+        Vinyl vinyl;*/
         
-        public Builder(){};
+        public Builder(String name){
+            this.name = name;
+        };
         
         public Builder setName(String nme){
             this.name = nme;
             return this;
         }
         
-        public Builder setSongList(List<Song> s){
+        /*public Builder setSongList(List<Song> s){
             this.songList = s;
             return this;
-        }
+        }*/
         
         public Builder setId(Long ID){
             this.id = ID;
             return this;
         }
 
-        public Builder setCd(CD cd) {
-            this.cd = cd;
-            return this;
+        /*public Builder setCd(CD cd) {
+        this.cd = cd;
+        return this;
         }
-
         public Builder setVinyl(Vinyl vinyl) {
-            this.vinyl = vinyl;
+        this.vinyl = vinyl;
+        return this;
+        }*/
+        /*public Builder setMedia(MediaInterface media) {
+            this.media = media;
             return this;
-        }
+        }*/
         
         public Builder Album(Album a){
             this.id = a.id;
-            this.cd = a.cd;
+            //this.cd = a.cd;
             this.name = a.name;
-            this.songList = a.songList;
-            this.vinyl = a.vinyl;
+            //this.songList = a.songList;
+            //this.media = a.media;
+            //this.vinyl = a.vinyl;
             return this;
         }
         
         public Album build(){
             return new Album(this);
         }
-        
-        
-        
+
     }
 
     @Override

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.hendricks.musicstoreweb.domain;
 
 import java.io.Serializable;
@@ -16,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -23,72 +23,57 @@ import javax.persistence.OneToOne;
  * @author kurvin
  */
 @Entity
-public class Vinyl implements Serializable{
+public class Vinyl implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String album;
     private String artist;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vinyl")
+    List<Song> songList;
+
+    private Vinyl() {
+    };
     
-    private Vinyl(){};
-    
-    private Vinyl(Vinyl item){
-        this.album = item.album;
+    public Vinyl(Vinyl item) {
         this.artist = item.artist;
         this.id = item.id;
-        //this.songList = item.songList;
+        this.songList = item.songList;
     }
-    
-    private Vinyl(Builder item){
-        this.album = item.album;
+
+    public Vinyl(Builder item) {
         this.artist = item.artist;
         this.id = item.id;
-        //this.songList = item.songList;
+        this.songList = item.songList;
     }
-    
-        public static class Builder{
-            private static final long serialVersionUID = 1L;
-            @Id
-            @GeneratedValue(strategy = GenerationType.AUTO)
-            private Long id;
-            private String album;
-            private String artist;
-            
-            public Builder(){
-                //default constructor for builder
-            }
 
-        public Builder setAlbum(String album) {
-            this.album = album;
-            return this;
-        }
+    public static class Builder {
 
-        public Builder setArtist(String artist) {
+        private Long id;
+        private String artist;
+        List<Song> songList;
+
+        public Builder(String artist) {
             this.artist = artist;
-            return this;
         }
 
-        /*public Builder setSongList(List<Song> songList) {
+        public Builder setSongList(List<Song> songList) {
             this.songList = songList;
             return this;
-        }*/
-      
-        
-        public Builder Vinyl(Vinyl item){
-            this.album = item.album;
+        }
+
+        public Builder Vinyl(Vinyl item) {
             this.artist = item.artist;
-            //this.songList = item.songList;
+            this.songList = item.songList;
+            this.id = item.id;
             return this;
         }
-            
-        public Vinyl build(){
-            return new Vinyl(this);
-        }    
-    }
 
-    public String getAlbum() {
-        return album;
+        public Vinyl build() {
+            return new Vinyl(this);
+        }
     }
 
     public String getArtist() {
@@ -99,9 +84,9 @@ public class Vinyl implements Serializable{
         return id;
     }
 
-    /*public List<Song> getSongList() {
+    public List<Song> getSongList() {
         return songList;
-    }*/
+    }
 
     @Override
     public int hashCode() {
@@ -129,8 +114,5 @@ public class Vinyl implements Serializable{
     public String toString() {
         return "Vinyl{" + "id=" + id + '}';
     }
-    
-    
-    
-    
+
 }

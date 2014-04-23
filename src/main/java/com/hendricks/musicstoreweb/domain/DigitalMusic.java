@@ -9,32 +9,78 @@ package com.hendricks.musicstoreweb.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author kurvin
  */
-/*@Entity
+@Entity
 public class DigitalMusic implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String album;
     private String artist;
-    private int ID;
-    private List<Song> songList = new ArrayList();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "digital")
+    List<Song> songList;
+    
+    private DigitalMusic(){};
+    
+    public DigitalMusic(Builder dm){
+        this.artist = dm.artist;
+        this.id = dm.id;
+        this.songList = dm.songList;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getArtist() {
+        return artist;
+    }
+
+    public List<Song> getSongList() {
+        return songList;
+    }
+    
+    public static class Builder{
+        private Long id;
+        private String artist;
+        List<Song> songList;
+        
+        public Builder(String artist){
+            this.artist = artist;
+        }
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setSongList(List<Song> songList) {
+            this.songList = songList;
+            return this;
+        }
+        
+        public Builder DigitalMusic(DigitalMusic dm){
+            this.artist = dm.getArtist();
+            this.id = dm.getId();
+            this.songList = dm.getSongList();
+            return this;
+        }
+        
+        public DigitalMusic build(){
+            return new DigitalMusic(this);
+        }
     }
     
     
@@ -64,4 +110,4 @@ public class DigitalMusic implements Serializable {
         return "com.hendricks.musicstoreweb.domain.DigitalMusic[ id=" + id + " ]";
     }
     
-}*/
+}

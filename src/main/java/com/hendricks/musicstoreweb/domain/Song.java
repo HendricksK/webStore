@@ -24,7 +24,6 @@ public class Song implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
-    private String album;
     private int trackNum;
     
     private Song(){};
@@ -58,26 +57,20 @@ public class Song implements Serializable{
         return "Song{" + "id=" + id + '}';
     }
     
-    private Song(Builder item){
+    public Song(Builder item){
         this.id = item.id;
-        this.album = item.album;
         this.title = item.title;
         this.trackNum = item.trackNum;
     }
     
     private Song(Song s){
         this.id = s.id;
-        this.album = s.album;
         this.title = s.title;
         this.trackNum = s.trackNum;
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public String getAlbum() {
-        return album;
     }
 
     public int getTrackNum() {
@@ -89,33 +82,25 @@ public class Song implements Serializable{
     }
     
     public static class Builder{
-        private static final long serialVersionUID = 1L;
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
         private Long id;
         private String title;
-        private String album;
         private int trackNum;
         
-        public Builder(){}
-
-        public Builder setTitle(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder setAlbum(String album) {
-            this.album = album;
-            return this;
+        public Builder(int trackNum){
+            this.trackNum = trackNum;
         }
 
         public Builder setTrackNum(int trackNum) {
             this.trackNum = trackNum;
             return this;
         }
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
         
         public Builder Song(Song s){
-            this.album = s.album;
             this.id = s.id;
             this.title = s.title;
             this.trackNum = s.trackNum;

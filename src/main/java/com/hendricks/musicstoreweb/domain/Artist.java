@@ -16,87 +16,92 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
  * @author kurvin
  */
 @Entity
-public class CD implements Serializable {
-
+public class Artist implements Serializable{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String artist;
+    private String alias;
+    private String names;
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cd")
-    List<Song> songList;
+    @JoinColumn(name="artist_id")
+    List<Album> albums;
 
-    private CD() {
-    };
+    private Artist() {
+    }
+
+    ;
     
-    private CD(CD item) {
-        this.artist = item.artist;
-        this.id = item.id;
-        this.songList = item.songList;
+    private Artist(Builder item) {
+        names = item.names;
+        alias = item.alias;
     }
 
-    private CD(Builder item) {
-        this.artist = item.artist;
-        this.id = item.id;
-        this.songList = item.songList;
+    private Artist(Artist item) {
+        this.names = item.names;
+        this.alias = item.alias;
     }
 
-    public static class Builder {
-
-        private Long id;
-        private String artist;
-        List<Song> songList;
-
-        public Builder(String artist) {
-            this.artist = artist;
-        }
-
-        public Builder setArtist(String artist) {
-            this.artist = artist;
-            return this;
-        }
-
-        public Builder setSongList(List<Song> songList) {
-            this.songList = songList;
-            return this;
-        }
-
-        public Builder CD(CD item) {
-            this.artist = item.artist;
-            this.songList = item.songList;
-            this.id = item.id;
-            return this;
-        }
-
-        public CD build() {
-            return new CD(this);
-        }
+    public String getAlias() {
+        return alias;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public Long getID() {
-        return id;
+    public String getNames() {
+        return names;
     }
 
     public Long getId() {
         return id;
     }
 
+    public List<Album> getAlbums() {
+        return albums;
+    }
+    
+    public static class Builder {
+        private Long id;
+        private String alias;
+        private String names;
+        List<Album> albums;
+
+        public Builder(String name){
+            this.alias = name;
+        }
+
+        public Builder setName(String value) {
+            this.names = value;
+            return this;
+        }
+        
+        public Builder setAlbums(List<Album> albums){
+            this.albums = albums;
+            return this;
+        }
+
+        public Builder Artist(Artist item) {
+            this.names = item.names;
+            this.alias = item.alias;
+            this.albums = item.albums;
+            this.id = item.id;
+            return this;
+        }
+
+        public Artist build() {
+            return new Artist(this);
+        }
+
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -108,7 +113,7 @@ public class CD implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CD other = (CD) obj;
+        final Artist other = (Artist) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -117,7 +122,9 @@ public class CD implements Serializable {
 
     @Override
     public String toString() {
-        return "CD{" + "id=" + id + '}';
+        return "Artist{" + "id=" + id + '}';
     }
+    
+    
 
 }
