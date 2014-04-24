@@ -7,9 +7,14 @@
 package com.hendricks.musicstoreweb.test.repository;
 
 import com.hendricks.musicstoreweb.app.conf.ConnectionConfig;
+import com.hendricks.musicstoreweb.domain.Card;
+import com.hendricks.musicstoreweb.domain.Cash;
+import com.hendricks.musicstoreweb.domain.Cheque;
 import com.hendricks.musicstoreweb.domain.ProductPurchase;
 import com.hendricks.musicstoreweb.domain.PurchaseCD;
 import com.hendricks.musicstoreweb.domain.PurchaseDevice;
+import com.hendricks.musicstoreweb.domain.PurchaseDigitalMedia;
+import com.hendricks.musicstoreweb.domain.PurchaseVinyl;
 import com.hendricks.musicstoreweb.repository.ProductPurchaseRepository;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,9 +76,20 @@ public class ProductPurchaseRepositoryTest {
          ProductPurchase p = repo.findOne(id);
          
          List<PurchaseDevice> dPurchaces = new ArrayList<>();
+         List<PurchaseDigitalMedia> dmPurchases = new ArrayList<>();
+         List<PurchaseVinyl> vPurchases = new ArrayList<>();
+         List<Card> cardMethod = new ArrayList<>();
+         List<Cash> cashMethod = new ArrayList<>();
+         List<Cheque> cheque = new ArrayList<>();
+         
          
          ProductPurchase update = new ProductPurchase.Builder(p.getDate())
                  .setDevicePurchases(dPurchaces)
+                 .setDvdPurchases(dmPurchases)
+                 .setVinylPurchases(vPurchases)
+                 .setCardPurchases(cardMethod)
+                 .setCashPurchases(cashMethod)
+                 .setChequePurchases(cheque)
                  .ProductPurchase(p)
                  .build();
          

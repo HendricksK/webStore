@@ -9,6 +9,7 @@ package com.hendricks.musicstoreweb.test.repository;
 import com.hendricks.musicstoreweb.app.conf.ConnectionConfig;
 import com.hendricks.musicstoreweb.domain.Album;
 import com.hendricks.musicstoreweb.domain.Artist;
+import com.hendricks.musicstoreweb.domain.Genre;
 import com.hendricks.musicstoreweb.repository.ArtistRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,12 @@ public class ArtistRepositoryTest {
         
         albums.add(a);
         
+        Genre g = new Genre.Builder("Post Hardcore")
+                .build();
+        
         Artist artist = new Artist.Builder("Dance Gavin Dance")
                 .setName("Will Swan, Tilian")
+                .setGenre(g)
                 .setAlbums(albums)
                 .build();
         
