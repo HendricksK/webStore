@@ -6,38 +6,43 @@
 
 package com.hendricks.musicstoreweb.domain;
 
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *
  * @author kurvin
  */
-public final class Cheque {
-    
-    private String transaction;
-    private int ID;
+@Entity
+public class Cheque implements Serializable{
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ID;
+    private String info;
     
     private Cheque(){};
     
     private Cheque(Cheque item){
-        this.transaction = item.transaction;
+        this.info = item.info;
         this.ID = item.ID;
     }
     
     private Cheque(Builder item){
         this.ID = item.ID;
-        this.transaction = item.transaction;
+        this.info = item.info;
     }
     
     public static class Builder{
-        private String transaction;
-        private int ID;
+        private String info;
+        private Long ID;
         
         public Builder(String item){
-            this.transaction = item;
-        }
-
-        public Builder setID(int ID) {
-            this.ID = ID;
-            return this;
+            this.info = item;
         }
         
         public Builder Cheque(Cheque item){
@@ -51,17 +56,17 @@ public final class Cheque {
     }
 
     public String getTransaction() {
-        return transaction;
+        return info;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 13 * hash + this.ID;
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.ID);
         return hash;
     }
 

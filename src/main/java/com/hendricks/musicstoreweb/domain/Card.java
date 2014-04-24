@@ -3,65 +3,73 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.hendricks.musicstoreweb.domain;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author kurvin
  */
-public final class Card {
-    
-    private String transaction;
-    private int ID;
-    
-    private Card(){};
-    
-    private Card(Card item){
-        this.transaction = item.transaction;
+@Entity
+public class Card implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ID;
+    private String info;
+
+    private Card() {
+    }
+
+    ;
+    private Card(Card item) {
+        this.info = item.info;
         this.ID = item.ID;
     }
-    
-    private Card(Builder item){
+
+    private Card(Builder item) {
         this.ID = item.ID;
-        this.transaction = item.transaction;
+        this.info = item.info;
     }
-    
-    public static class Builder{
-        private String transaction;
-        private int ID;
-        
-        public Builder(String item){
-            this.transaction = item;
+
+    public static class Builder {
+
+        private String info;
+        private Long ID;
+
+        public Builder(String item) {
+            this.info = item;
         }
 
-        public Builder setID(int ID) {
-            this.ID = ID;
-            return this;
-        }
-        
-        public Builder Card(Card item){
+        public Builder Card(Card item) {
             this.ID = item.ID;
             return this;
         }
-        
-        public Card build(){
+
+        public Card build() {
             return new Card(this);
-        }  
+        }
     }
 
-    public String getTransaction() {
-        return transaction;
+    public String getinfo() {
+        return info;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 73 * hash + this.ID;
+        int hash = 5;
+        hash = 11 * hash + Objects.hashCode(this.ID);
         return hash;
     }
 
@@ -79,6 +87,5 @@ public final class Card {
         }
         return true;
     }
-    
-    
+
 }

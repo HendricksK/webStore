@@ -6,14 +6,24 @@
 
 package com.hendricks.musicstoreweb.domain;
 
+import java.io.Serializable;
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  *
  * @author kurvin
  */
-public final class DeviceSupplier {
-    
+@Entity
+public class DeviceSupplier implements Serializable{
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ID;
     private String supplier;
-    private int ID;
     private String product;
     private Double price;
     
@@ -35,12 +45,12 @@ public final class DeviceSupplier {
     
     public static class Builder{
         private String supplier;
-        private int ID;
+        private Long ID;
         private String product;
         private Double price;
         
-        public Builder(int ID){
-            this.ID = ID;
+        public Builder(String supplier){
+            this.supplier = supplier;
         }
 
         public Builder setSupplier(String supplier) {
@@ -75,7 +85,7 @@ public final class DeviceSupplier {
         return supplier;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
     }
 
@@ -89,8 +99,8 @@ public final class DeviceSupplier {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + this.ID;
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.ID);
         return hash;
     }
 

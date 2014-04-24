@@ -6,50 +6,52 @@
 
 package com.hendricks.musicstoreweb.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author kurvin
  */
-public final class Manager {
-    
-    private String Name;
-    private int ID;
-    private List<ProductPurchase> cashierList = new ArrayList();
+@Entity
+public class Manager implements Serializable{
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ID;
+    private String name;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "Product_Buyers")
     private List<ProductBuyer> buyerList = new ArrayList();
     
     private Manager(){};
     
     private Manager(Manager item){
-        this.Name = item.Name;
+        this.name = item.name;
         this.ID = item.ID;
     }
     
     private Manager(Builder item){
-        this.Name = item.Name;
+        this.name = item.name;
         this.ID = item.ID;
     }
     
     public static class Builder{
-        private String Name;
-        private int ID;
-        private List<ProductPurchase> cashierList = new ArrayList();
+        private String name;
+        private Long ID;
         private List<ProductBuyer> buyerList = new ArrayList();
         
-        public Builder(int ID){
-            this.ID = ID;
-        }
-        
-        public Builder setName(String value){
-            this.Name = value;
-            return this;
-        }
-
-        public Builder setCashierList(List<ProductPurchase> cashierList) {
-            this.cashierList = cashierList;
-            return this;
+        public Builder(String name){
+        this.name = name;
         }
 
         public Builder setBuyerList(List<ProductBuyer> buyerList) {
@@ -58,7 +60,7 @@ public final class Manager {
         }
         
         public Builder Manager(Manager item){
-            this.Name = item.Name;
+            this.name = item.name;
             return this;
         }
         
@@ -68,15 +70,11 @@ public final class Manager {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
-    }
-
-    public List<ProductPurchase> getCashierList() {
-        return cashierList;
     }
 
     public List<ProductBuyer> getBuyerList() {
@@ -85,11 +83,11 @@ public final class Manager {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + this.ID;
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.ID);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

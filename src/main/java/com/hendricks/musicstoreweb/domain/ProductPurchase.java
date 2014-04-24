@@ -42,6 +42,15 @@ public class ProductPurchase {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "v_purchases")
     List<PurchaseVinyl> vinylPurchases = new ArrayList();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "card_purchases")
+    List<Card> cardPurchases;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cash_purchases")
+    List<Cash> cashPurchases;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cheque_purchases")
+    List<Cheque> chequePurchases;
     
     
     private ProductPurchase(){};
@@ -85,6 +94,9 @@ public class ProductPurchase {
         private List<PurchaseDevice> devicePurchases = new ArrayList();
         private List<PurchaseDigitalMedia> dgPurchases = new ArrayList();
         private List<PurchaseVinyl> vinylPurchases = new ArrayList();
+        private List<Card> cardPurchases;
+        private List<Cash> cashPurchases;
+        private List<Cheque> chequePurchases;
         
         public Builder(Date d){
             this.date = d;
@@ -109,6 +121,23 @@ public class ProductPurchase {
             this.vinylPurchases = vinylPurchases;
             return this;
         }
+
+        public Builder setCardPurchases(List<Card> cardPurchases) {
+            this.cardPurchases = cardPurchases;
+            return this;
+        }
+
+        public Builder setCashPurchases(List<Cash> cashPurchases) {
+            this.cashPurchases = cashPurchases;
+            return this;
+        }
+
+        public Builder setChequePurchases(List<Cheque> chequePurchases) {
+            this.chequePurchases = chequePurchases;
+            return this;
+        }
+        
+        
         
         public Builder ProductPurchase(ProductPurchase pp){
             this.ID = pp.ID;
@@ -117,6 +146,9 @@ public class ProductPurchase {
             this.devicePurchases = pp.devicePurchases;
             this.dgPurchases = pp.dgPurchases;
             this.vinylPurchases = pp.vinylPurchases;
+            this.cardPurchases = pp.cardPurchases;
+            this.cashPurchases = pp.cashPurchases;
+            this.chequePurchases = pp.chequePurchases;
             return this;
         }
         

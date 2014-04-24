@@ -5,19 +5,27 @@
  */
 package com.hendricks.musicstoreweb.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author kurvin
  */
-public final class ListeningStation {
-
+@Entity
+public class ListeningStation implements Serializable{
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ID;
     private String album;
-    private String artist;
-    private int ID;
-    private List<Album> albumList = new ArrayList();
+
 
     private ListeningStation() {
     }
@@ -26,46 +34,27 @@ public final class ListeningStation {
     
     private ListeningStation(ListeningStation item) {
         this.album = item.album;
-        this.artist = item.artist;
         this.ID = item.ID;
     }
 
     private ListeningStation(Builder item) {
         this.album = item.album;
-        this.artist = item.artist;
         this.ID = item.ID;
     }
 
     public static class Builder {
 
         private String album;
-        private String artist;
-        private int ID;
-        private List<Album> albumList = new ArrayList();
+        private Long ID;
 
-        public Builder(int ID) {
-            this.ID = ID;
-        }
 
-        public Builder setAlbum(String album) {
+        public Builder(String album) {
             this.album = album;
-            return this;
-        }
-
-        public Builder setArtist(String artist) {
-            this.artist = artist;
-            return this;
-        }
-
-        public Builder setAlbumList(List<Album> albumList) {
-            this.albumList = albumList;
-            return this;
         }
 
         public Builder ListeningStation(ListeningStation item) {
             this.album = item.album;
-            this.artist = item.artist;
-            this.albumList = item.albumList;
+            this.ID = item.ID;
             return this;
         }
 
@@ -78,24 +67,17 @@ public final class ListeningStation {
         return album;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public int getID() {
+    public Long getID() {
         return ID;
-    }
-
-    public List<Album> getAlbumList() {
-        return albumList;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + this.ID;
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.ID);
         return hash;
     }
+
 
     @Override
     public boolean equals(Object obj) {

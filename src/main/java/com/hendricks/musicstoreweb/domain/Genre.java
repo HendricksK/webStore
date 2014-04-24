@@ -23,40 +23,30 @@ import javax.persistence.Id;
 @Embeddable
 public class Genre implements Serializable{
     private String name;
-    private int ID;
     
     private Genre(){};
     
     private Genre(Builder item){
         name = item.name;
-        ID = item.ID;
     }
     
     private Genre(Genre item){
-        this.ID = item.ID;
         this.name = item.name;
     }
     
         public static class Builder{
             private String name;
-            private int ID;
-
-            public Builder(int value){
-                this.ID = value;
+            
+            public Builder(String name){
+                name = name;
             }
-
-            public Builder setName(String name) {
-                this.name = name;
-                return this;
-            }
-
+                
             public Builder Genre(Genre item){
                 name = item.name;
                 return this;
             }
             
             public Builder Genre(Builder g){
-                this.ID = g.ID;
                 this.name = g.name;
                 return this;
             }
@@ -69,10 +59,6 @@ public class Genre implements Serializable{
 
     public String getName() {
         return name;
-    }
-
-    public int getID() {
-        return ID;
     }
     
 }

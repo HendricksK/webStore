@@ -29,6 +29,7 @@ public class Artist implements Serializable{
     private Long id;
     private String alias;
     private String names;
+    private Genre genre;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="artist_id")
     List<Album> albums;
@@ -68,10 +69,16 @@ public class Artist implements Serializable{
         private Long id;
         private String alias;
         private String names;
+        private Genre genre;
         List<Album> albums;
 
         public Builder(String name){
             this.alias = name;
+        }
+        
+        public Builder setGenre(Genre g){
+            genre = g;
+            return this;
         }
 
         public Builder setName(String value) {
